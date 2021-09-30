@@ -5,6 +5,7 @@ async function getBtcPrice() {
         const receivedData = Object.entries(data);
         const currentSymbol = receivedData[0][1];
         const currentBtcPrice = receivedData[6][1];
+        await time(1000);
         printData(currentBtcPrice, "USD/BTC", "btcprice");
         return {
             priceBtc: currentBtcPrice
@@ -22,6 +23,7 @@ async function getDolarBlue() {
         const data = await response.json();
         const arrayBlue = Object.entries(data.blue);
         const currentDolarBlue = arrayBlue[1][1];
+        await time(1000);
         printData(currentDolarBlue, "ARS/USD", "blueprice");
         return {
             priceBlue: currentDolarBlue
@@ -36,6 +38,7 @@ async function getDolarBlue() {
 async function calculateRate() {
     const btcPrice = await getBtcPrice();
     const dolarBluePrice = await getDolarBlue();
+    await time(1000);
     printData((btcPrice.priceBtc * dolarBluePrice.priceBlue), "ARS/BTC", "totalprice")
     console.log(btcPrice.priceBtc * dolarBluePrice.priceBlue);
 }
@@ -43,8 +46,14 @@ async function calculateRate() {
 function printData(price, symbol, id) {
     document.getElementById(`${id}`).innerHTML = `
     <h1>${symbol}:</h1>
-    <h2>el precio es: ${price}$</h2>
+    <h2>${price}$</h2>
     `;
+}
+
+function time(ms) {
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve, ms);
+    })
 }
 
 calculateRate();

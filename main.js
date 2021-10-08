@@ -39,7 +39,7 @@ async function calculateRate() {
     const btcPrice = await getBtcPrice();
     const dolarBluePrice = await getDolarBlue();
     await time(1000);
-    printData((btcPrice.priceBtc * dolarBluePrice.priceBlue), "ARS/BTC", "totalprice")
+    printData((btcPrice.priceBtc * dolarBluePrice.priceBlue).toFixed(), "ARS/BTC", "totalprice")
     console.log(btcPrice.priceBtc * dolarBluePrice.priceBlue);
 }
 

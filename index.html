@@ -5,21 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link href="bootstrap.css">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="main.css">
 </head>
 
 <body style="font-family: monospace; font-size: 14px;">
-    <div class="grid container-fluid" id="header">
-        <h1>current btc price in USD and ARS</h1>
-    </div>
-    <div class="grid container-fluid">
-        <div id="btcprice" class="g-col-4"></div>
-        <div id="blueprice" class="g-col-4"></div>
-        <div id="totalprice" class="g-col-4"></div>
+    <nav class="navbar navbar-dark bg-primary mb-3">
+        <div class="container">
+            <a href="#" class="navbar-brand">current btc price in usd and ars</a>
+        </div>
+    </nav>
+    <div class="card-group" id="prices">
+        <div id="btcprice" class="card card-body"></div>
+        <div id="blueprice" class="card card-body"></div>
+        <div id="totalprice" class="card card-body"></div>
     </div>
 
+    <footer class="mt-5 p-3 bg-light text-center">
+        calculadora &copy;
+    </footer>
 
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <script src="main.js"></script>
 </body>
 

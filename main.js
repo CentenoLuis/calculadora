@@ -4,9 +4,11 @@ async function getBtcPrice() {
         const data = await response.json();
         const receivedData = Object.entries(data);
         const currentSymbol = receivedData[0][1];
-        const currentBtcPrice = receivedData[6][1];
-        await time(1000);
-        printData(currentBtcPrice, "USD/BTC", "btcprice");
+        const currentBtcPrice = Number(receivedData[6][1]);
+        console.log('gemini: ')
+        console.log(typeof (receivedData[6][1]));
+        //await time(1000);
+        printData(currentBtcPrice.toFixed(1), "USD/BTC", "btcprice", 'gemini');
         return {
             priceBtc: currentBtcPrice
         }
@@ -23,8 +25,8 @@ async function getDolarBlue() {
         const data = await response.json();
         const arrayBlue = Object.entries(data.blue);
         const currentDolarBlue = arrayBlue[1][1];
-        await time(1000);
-        printData(currentDolarBlue, "ARS/USD", "blueprice");
+        //await time(1000);
+        printData(currentDolarBlue, "ARS/USD", "blueprice", 'dolar_blue');
         return {
             priceBlue: currentDolarBlue
         }
@@ -38,15 +40,54 @@ async function getDolarBlue() {
 async function calculateRate() {
     const btcPrice = await getBtcPrice();
     const dolarBluePrice = await getDolarBlue();
-    await time(1000);
-    printData((btcPrice.priceBtc * dolarBluePrice.priceBlue).toFixed(), "ARS/BTC", "totalprice")
+    //await time(1000);
+    printData((btcPrice.priceBtc * dolarBluePrice.priceBlue).toFixed(1), "ARS/BTC", "totalprice", 'calculadora_btc_arg')
     console.log(btcPrice.priceBtc * dolarBluePrice.priceBlue);
 }
 
-function printData(price, symbol, id) {
+async function getDataFromCoinGecko() {
+    const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
+    const data = await response.json();
+    console.log('coingecko: ' + data.bitcoin.usd);
+    const price = Number(data.bitcoin.usd);
+    printData(price.toFixed(1), 'USD/BTC', 'coingecko', 'coingecko')
+    return {
+        price,
+    }
+
+}
+async function getDataFromCoinPaprika() {
+    const response = await fetch('https://api.coinpaprika.com/v1/tickers/btc-bitcoin')
+    const data = await response.json();
+    console.log('coinpaprika:');
+    console.log(data.quotes.USD.price);
+    const price = Number(data.quotes.USD.price);
+    printData(price.toFixed(1), 'USD/BTC', 'coinpaprika', 'coinpaprika')
+    return {
+        price,
+    }
+    //const price = data.bitcoin.usd;
+    //printData(price, 'USD/BTC', 'coingecko', 'coingecko')
+
+}
+
+async function getDataFromCoinCap() {
+    const response = await fetch('https://api.coincap.io/v2/assets/bitcoin');
+    const data = await response.json();
+    console.log('coincap:');
+    console.log(typeof (data.data.priceUsd));
+    const price = Number(data.data.priceUsd);
+    printData(price.toFixed(1), 'BTC/USD', 'coincap', 'coincap')
+    return {
+        price,
+    }
+}
+
+function printData(price, symbol = '', id, exchange = 'exchange') {
     document.getElementById(`${id}`).innerHTML = `
-    <h1>${symbol}:</h1>
-    <h2>${price}$</h2>
+    <h6>${exchange}</h6>
+    <h3>${price}</h3>
+    <h6>${symbol}</h6>
     `;
 }
 
@@ -56,4 +97,61 @@ function time(ms) {
     })
 }
 
+async function calculateRate2() {
+    const gemini = await getBtcPrice();
+    const paprika = await getDataFromCoinPaprika();
+    const coincap = await getDataFromCoinCap();
+    const coingecko = await getDataFromCoinGecko();
+    const average = ((gemini.priceBtc + paprika.price + coincap.price + coingecko.price) / 4).toFixed(1);
+    console.log('Average: ');
+    console.log(average);
+    const inputAmount = document.getElementById("inputAmount");
+
+    inputAmount.addEventListener('keyup', (event) => {
+        const numberToConvert = event.target.value;
+        if (numberToConvert != '') {
+            const resultOfConversion = numberToConvert * average;
+            console.log('1080');
+            console.log(resultOfConversion);
+            document.getElementById("resultado").innerHTML = `
+                <h3>${resultOfConversion}</h3>
+                <h6> USD </h6>
+            `;
+        } else {
+            document.getElementById("resultado").innerHTML = ``;
+        }
+    })
+}
+
+async function calculateRate3() {
+    const gemini = await getBtcPrice();
+    const paprika = await getDataFromCoinPaprika();
+    const coincap = await getDataFromCoinCap();
+    const coingecko = await getDataFromCoinGecko();
+    const average = ((gemini.priceBtc + paprika.price + coincap.price + coingecko.price) / 4).toFixed(1);
+    console.log('Average: ');
+    console.log(average);
+    const inputAmount = document.getElementById("inputAmount2");
+
+    inputAmount.addEventListener('keyup', (event) => {
+        const numberToConvert = event.target.value;
+        if (numberToConvert != '') {
+            const resultOfConversion = (numberToConvert / average).toFixed(8);
+            console.log('1080');
+            console.log(resultOfConversion);
+            document.getElementById("resultado2").innerHTML = `
+                <h3>${resultOfConversion}</h3>
+                <h6> BTC </h6>
+            `;
+        } else {
+            document.getElementById("resultado2").innerHTML = ``;
+        }
+    })
+}
+
 calculateRate();
+getDataFromCoinGecko();
+getDataFromCoinPaprika();
+getDataFromCoinCap();
+calculateRate2();
+calculateRate3();

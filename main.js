@@ -1,6 +1,11 @@
 async function getBtcPrice() {
     try {
-        const response = await fetch('https://api.gemini.com/v2/ticker/btcusd');
+        const response = await fetch('https://api.gemini.com/v2/ticker/btcusd', {
+            'mode': 'no-cors',
+            'headers': {
+                'Access-Control-Allow-Origin': '*',
+            }
+        });
         const data = await response.json();
         const receivedData = Object.entries(data);
         const currentSymbol = receivedData[0][1];
@@ -24,7 +29,7 @@ async function getDolarBlue() {
         const response = await fetch('https://api.bluelytics.com.ar/v2/latest')
         const data = await response.json();
         const arrayBlue = Object.entries(data.blue);
-        const currentDolarBlue = arrayBlue[1][1];
+        const currentDolarBlue = Number(arrayBlue[1][1])
         //await time(1000);
         printData(currentDolarBlue, "ARS/USD", "blueprice", 'dolar_blue');
         return {
@@ -38,11 +43,15 @@ async function getDolarBlue() {
 }
 
 async function calculateRate() {
-    const btcPrice = await getBtcPrice();
+    //const gemini = await getBtcPrice();
+    const paprika = await getDataFromCoinPaprika();
+    //const coincap = await getDataFromCoinCap();
+    const coingecko = await getDataFromCoinGecko();
     const dolarBluePrice = await getDolarBlue();
     //await time(1000);
-    printData((btcPrice.priceBtc * dolarBluePrice.priceBlue).toFixed(1), "ARS/BTC", "totalprice", 'calculadora_btc_arg')
-    console.log(btcPrice.priceBtc * dolarBluePrice.priceBlue);
+    const average = ((paprika.price + coingecko.price) / 2).toFixed(1);
+    printData(average * dolarBluePrice.priceBlue, "ARS/BTC", "totalprice", 'btc price in ARS')
+    //console.log(btcPrice.priceBtc * dolarBluePrice.priceBlue);
 }
 
 async function getDataFromCoinGecko() {
@@ -86,7 +95,7 @@ async function getDataFromCoinCap() {
 function printData(price, symbol = '', id, exchange = 'exchange') {
     document.getElementById(`${id}`).innerHTML = `
     <h6>${exchange}</h6>
-    <h3>${price}</h3>
+    <h1>${price}</h1>
     <h6>${symbol}</h6>
     `;
 }
@@ -98,11 +107,11 @@ function time(ms) {
 }
 
 async function calculateRate2() {
-    const gemini = await getBtcPrice();
+    //const gemini = await getBtcPrice();
     const paprika = await getDataFromCoinPaprika();
-    const coincap = await getDataFromCoinCap();
+    //const coincap = await getDataFromCoinCap();
     const coingecko = await getDataFromCoinGecko();
-    const average = ((gemini.priceBtc + paprika.price + coincap.price + coingecko.price) / 4).toFixed(1);
+    const average = ((paprika.price + coingecko.price) / 2).toFixed(1);
     console.log('Average: ');
     console.log(average);
     const inputAmount = document.getElementById("inputAmount");
@@ -124,11 +133,11 @@ async function calculateRate2() {
 }
 
 async function calculateRate3() {
-    const gemini = await getBtcPrice();
+    //const gemini = await getBtcPrice();
     const paprika = await getDataFromCoinPaprika();
-    const coincap = await getDataFromCoinCap();
+    //const coincap = await getDataFromCoinCap();
     const coingecko = await getDataFromCoinGecko();
-    const average = ((gemini.priceBtc + paprika.price + coincap.price + coingecko.price) / 4).toFixed(1);
+    const average = ((paprika.price + coingecko.price) / 2).toFixed(1);
     console.log('Average: ');
     console.log(average);
     const inputAmount = document.getElementById("inputAmount2");
@@ -150,6 +159,7 @@ async function calculateRate3() {
 }
 
 calculateRate();
+getDolarBlue();
 getDataFromCoinGecko();
 getDataFromCoinPaprika();
 getDataFromCoinCap();

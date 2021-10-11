@@ -1,30 +1,104 @@
-body {
-    height: 100%;
-  }
+
   
   body {
     align-items: center;
-    padding-top: 60px;
-    padding-bottom: 160px;
-    padding-left: 150px;
-    padding-right: 150px;
-    background-color: #fff;
-    margin: 0 auto;
+    margin: 0;
+    background-color: #202731;
+    color: #202731;
+
+  }
+
+  section{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 550px;
+    padding: 100px 20vw;
   }
 
 .card {
     /* Add shadows to create the "card" effect */
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2);
     transition: 0.3s;
     width: 100%;
     text-align: center;
+    width: 800px;
+    margin: 0 50 0 0;
+   
 }
 
 .card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); 
  }
 
  .card-body{
     transition: all .9s ease-out;
+    border-radius: 20px;
+    
  }
 
+.white{
+  background-color: whitesmoke;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.wave svg {
+  position: relative;
+  display: block;
+  width: calc(177% + 1.3px);
+  height: 174px;
+}
+
+.wave .shape-fill {
+  fill: whitesmoke;
+}
+
+.custom-shape-divider-bottom-1633968437 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.custom-shape-divider-bottom-1633968437 svg {
+  position: relative;
+  display: block;
+  width: calc(118% + 1.3px);
+  height: 167px;
+}
+
+.custom-shape-divider-bottom-1633968437 .shape-fill {
+  fill: #202731;
+}
+
+
+.custom-shape-divider-bottom-1633975165 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.custom-shape-divider-bottom-1633975165 svg {
+  position: relative;
+  display: block;
+  width: calc(260% + 1.3px);
+  height: 155px;
+}
+
+.custom-shape-divider-bottom-1633975165 .shape-fill {
+  fill: #F5F5F5;
+}
